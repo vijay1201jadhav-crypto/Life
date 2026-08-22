@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Life - मनातील भावना आणि आनंद</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- STEP 1: Main Landing Choice -->
+    <div id="step-home" class="section active">
+      <h1>तुमच्या मनात काय चालू आहे? ✨</h1>
+      <p class="subtitle">आज तुम्हाला कशाबद्दल बोलायला किंवा वेळ घालवायला आवडेल?</p>
+      
+      <div class="btn-grid">
+        <button class="card-btn" onclick="navigateTo('step-enjoy')">
+          <span class="icon">🎉</span>
+          <span>Enjoy करायचंय</span>
+        </button>
+        <button class="card-btn" onclick="navigateTo('step-express')">
+          <span class="icon">💬</span>
+          <span>मन मोकळं करायचंय</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2A: Enjoy Options -->
+    <div id="step-enjoy" class="section">
+      <h1>आनंदाचे क्षण 🥳</h1>
+      <p class="subtitle">कोणत्या प्रकारचा आनंद तुम्हाला जास्त आवडतो?</p>
+      
+      <div class="btn-grid">
+        <button class="card-btn" onclick="openForm('Party & Clubbing', 'पार्टी, नाईटआउट आणि क्लबिंगबद्दल तुमचे प्लॅन्स किंवा आठवणी इथे शेअर करा...')">
+          <span class="icon">🪩</span>
+          <span>Party & Clubbing</span>
+        </button>
+        <button class="card-btn" onclick="openForm('Travelling & Explore', 'तुम्हाला कुठे फिरायला जायचंय किंवा कोणत्या प्रवासाची आठवण मनात आहे?')">
+          <span class="icon">✈️</span>
+          <span>Travelling</span>
+        </button>
+      </div>
+      <button class="back-btn" onclick="navigateTo('step-home')">← मागे जा</button>
+    </div>
+
+    <!-- STEP 2B: Express Options -->
+    <div id="step-express" class="section">
+      <h1>मन मोकळं करा 🤍</h1>
+      <p class="subtitle">तुमच्या मनावर कोणत्या गोष्टीचा विचार जास्त आहे?</p>
+      
+      <div class="btn-grid">
+        <button class="card-btn" onclick="openForm('Career & Goals', 'तुमचे करिअर, स्वप्ने, येणारे टेन्शन किंवा ध्येयाबद्दल मन मोकळं करा...')">
+          <span class="icon">💼</span>
+          <span>Career चं बोलणं</span>
+        </button>
+        <button class="card-btn" onclick="openForm('Love Life & Relationships', 'नातं, प्रेम किंवा भावनांबद्दल जे काही मनात आहे ते इथे लिहून काढा...')">
+          <span class="icon">❤️</span>
+          <span>Love Life / Relation</span>
+        </button>
+      </div>
+      <button class="back-btn" onclick="navigateTo('step-home')">← मागे जा</button>
+    </div>
+
+    <!-- STEP 3: Message / Input Form -->
+    <div id="step-form" class="section">
+      <h1 id="form-title">मनातील विचार</h1>
+      <p id="form-desc" class="subtitle"></p>
+      
+      <textarea id="user-thought" placeholder="इथे टाइप करा... जे मनात आहे ते बिनधास्त लिहा."></textarea>
+      <br>
+      <button class="submit-btn" onclick="saveThought()">शेअर करा ✨</button>
+      <p id="success-msg" class="success-msg">तुमचे विचार सुरक्षितपणे सेव्ह झाले आहेत! 🌟</p>
+      
+      <br>
+      <button class="back-btn" id="form-back-btn">← मागे जा</button>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
