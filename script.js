@@ -1,4 +1,4 @@
- let currentCategory = '';
+let currentCategory = '';
 let previousStep = 'step-home';
 
 function navigateTo(stepId) {
@@ -22,24 +22,56 @@ function openForm(title, placeholder) {
   navigateTo('step-form');
 }
 
-function saveThought() {
+async function saveThought() {
   const text = document.getElementById('user-thought').value.trim();
+  const submitBtn = document.querySelector('.submit-btn');
+
   if (!text) {
     alert('कृपया तुमचे काही विचार टाइप करा!');
     return;
   }
 
-  // डेटा ब्राऊझरच्या LocalStorage मध्ये सेव्ह होतो
-  const savedData = JSON.parse(localStorage.getItem('user_thoughts') || '[]');
-  savedData.push({
+  submitBtn.innerText = 'पाठवत आहे...';
+  submitBtn.disabled = true;
+
+  // तुमची Access Key इथे यशस्वीरीत्या ॲड केली आहे
+  const ACCESS_KEY = '91eae4fa-55a2-4e53-a17a-a9beeecb1845'; 
+
+  const formData = {
+    access_key: ACCESS_KEY,
+    subject: `नवीन मेसेज आला: ${currentCategory}`,
     category: currentCategory,
     thought: text,
     date: new Date().toLocaleString()
-  });
-  localStorage.setItem('user_thoughts', JSON.stringify(savedData));
+  };
 
-  document.getElementById('success-msg').style.display = 'block';
-  setTimeout(() => {
-    navigateTo('step-home');
-  }, 2000);
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      document.getElementById('success-msg').style.display = 'block';
+      setTimeout(() => {
+        navigateTo('step-home');
+        submitBtn.innerText = 'शेअर करा ✨';
+        submitBtn.disabled = false;
+      }, 2000);
+    } else {
+      alert('काहीतरी चूक झाली, पुन्हा प्रयत्न करा.');
+      submitBtn.innerText = 'शेअर करा ✨';
+      submitBtn.disabled = false;
+    }
+  } catch (error) {
+    alert('इंटरनेट कनेक्शन तपासा.');
+    submitBtn.innerText = 'शेअर करा ✨';
+    submitBtn.disabled = false;
+  }
 }
