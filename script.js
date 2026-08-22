@@ -1,41 +1,45 @@
-async function saveThought() {
+ let currentCategory = '';
+let previousStep = 'step-home';
+
+function navigateTo(stepId) {
+  document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(stepId).classList.add('active');
+}
+
+function openForm(title, placeholder) {
+  currentCategory = title;
+  previousStep = (title === 'Party & Clubbing' || title === 'Travelling & Explore') ? 'step-enjoy' : 'step-express';
+  
+  document.getElementById('form-title').innerText = title;
+  document.getElementById('form-desc').innerText = placeholder;
+  document.getElementById('user-thought').value = '';
+  document.getElementById('success-msg').style.display = 'none';
+
+  document.getElementById('form-back-btn').onclick = function() {
+    navigateTo(previousStep);
+  };
+
+  navigateTo('step-form');
+}
+
+function saveThought() {
   const text = document.getElementById('user-thought').value.trim();
   if (!text) {
     alert('कृपया तुमचे काही विचार टाइप करा!');
     return;
   }
 
-  const submitBtn = document.querySelector('.submit-btn');
-  submitBtn.innerText = 'पाठवत आहे...';
-  submitBtn.disabled = true;
-
-  // Web3Forms API द्वारे थेट तुमच्या ईमेलवर डेटा पाठवणे
-  const response = await fetch("https://api.web3forms.com/submit", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      access_key: "YOUR_ACCESS_KEY_HERE", // <-- इथे तुझी Access Key टाक
-      subject: `नवीन विचार: ${currentCategory}`,
-      category: currentCategory,
-      message: text
-    }),
+  // डेटा ब्राऊझरच्या LocalStorage मध्ये सेव्ह होतो
+  const savedData = JSON.parse(localStorage.getItem('user_thoughts') || '[]');
+  savedData.push({
+    category: currentCategory,
+    thought: text,
+    date: new Date().toLocaleString()
   });
+  localStorage.setItem('user_thoughts', JSON.stringify(savedData));
 
-  const result = await response.json();
-
-  if (result.success) {
-    document.getElementById('success-msg').style.display = 'block';
-    setTimeout(() => {
-      submitBtn.innerText = 'शेअर करा ✨';
-      submitBtn.disabled = false;
-      navigateTo('step-home');
-    }, 2000);
-  } else {
-    alert('काहीतरी चूक झाली, पुन्हा प्रयत्न करा.');
-    submitBtn.innerText = 'शेअर करा ✨';
-    submitBtn.disabled = false;
-  }
+  document.getElementById('success-msg').style.display = 'block';
+  setTimeout(() => {
+    navigateTo('step-home');
+  }, 2000);
 }
