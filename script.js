@@ -22,18 +22,13 @@ function openForm(title, placeholder) {
   navigateTo('step-form');
 }
 
-async function saveThought() {
+function saveThought() {
   const text = document.getElementById('user-thought').value.trim();
-  const submitBtn = document.querySelector('.submit-btn');
-
   if (!text) {
     alert('कृपया तुमचे काही विचार टाइप करा!');
     return;
   }
-
-  submitBtn.innerText = 'पाठवत आहे...';
-  submitBtn.disabled = true;
-
+   
   // तुमची Access Key इथे यशस्वीरीत्या ॲड केली आहे
   const ACCESS_KEY = '91eae4fa-55a2-4e53-a17a-a9beeecb1845'; 
 
@@ -73,5 +68,3 @@ async function saveThought() {
     alert('इंटरनेट कनेक्शन तपासा.');
     submitBtn.innerText = 'शेअर करा ✨';
     submitBtn.disabled = false;
-  }
-}
